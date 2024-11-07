@@ -1,4 +1,7 @@
 export default{
+    profile_icon: require('../assets/icons/profile_icon.png'),
+    chat_icon: require('../assets/icons/chat_icon.png'),
+
     profile: require('../assets/icons/profile.png'),
     saved: require('../assets/icons/saved.png'),
     notifications: require('../assets/icons/notifications.png'),
