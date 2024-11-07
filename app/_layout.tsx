@@ -5,20 +5,17 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-
 import { useColorScheme } from '@/components/useColorScheme';
+import Colors from '@/constants/Colors';
 
 export {
-  // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)',
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -27,7 +24,6 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -50,9 +46,37 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+      <Stack
+        initialRouteName="(tabs)"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: colorScheme === 'dark' ? Colors.dark.rounded : Colors.light.background,
+          },
+          headerTintColor: '#0066FF',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 18,
+            color: colorScheme === 'dark' ? Colors.dark.text : Colors.light.text,
+          },
+          headerBackTitleVisible: false,
+        }}
+      >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="screens/ChatDetail/index" options={{ headerShown: false, title: 'Chat Detail' }} />
+        <Stack.Screen name="screens/ChatProfile/index" options={{ headerShown: false, title: 'Chat Profile' }} />
+
+        <Stack.Screen name="screens/Themes/index" options={{ headerShown: true, title: 'Themes' }} />
+        <Stack.Screen name="screens/Themes/two" options={{ headerShown: true, title: 'Font Size' }} />
+
+        <Stack.Screen name="screens/Saved/index" options={{ headerShown: true, title: 'Saved Messages' }} />
+
+        <Stack.Screen name="screens/Privacy/index" options={{ headerShown: true, title: 'Privacy and Security' }} />
+        <Stack.Screen name="screens/Privacy/two" options={{ headerShown: true, title: 'Blocked Accounts' }} />
+
+        <Stack.Screen name="screens/Languages/index" options={{ headerShown: true, title: 'Languages' }} />
+
+        <Stack.Screen name="screens/Notifications/index" options={{ headerShown: true, title: 'Notifications' }} />
+        <Stack.Screen name="screens/Notifications/two" options={{ headerShown: true, title: 'Ringtones' }} />
       </Stack>
     </ThemeProvider>
   );

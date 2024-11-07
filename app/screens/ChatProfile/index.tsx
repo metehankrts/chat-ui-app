@@ -1,41 +1,47 @@
 import Colors from '@/constants/Colors';
 import Icons from '@/constants/Icons';
 import Images from '@/constants/Images';
-import { useNavigation } from 'expo-router';
 import { Image, StyleSheet, Text, View, TouchableOpacity, SafeAreaView, useColorScheme } from 'react-native';
+import { useNavigation } from 'expo-router';
 
-export default function ProfileScreen() {
+export default function ChatProfile() {
 
   const colorScheme = useColorScheme() ?? 'light';
   const navigation = useNavigation();
 
   const settings = [
-    { icon: Icons.profile, label: 'Profile', onPress: () => {} },
-    { icon: Icons.saved, label: 'Saved Messages', onPress: () => navigation.navigate('screens/Saved/index') },
-    { icon: Icons.notifications, label: 'Notifications', onPress: () => navigation.navigate('screens/Notifications/index') },
-    { icon: Icons.privacy, label: 'Privacy and Security', onPress: () => navigation.navigate('screens/Privacy/index') },
-    { icon: Icons.language, label: 'Language', onPress: () => navigation.navigate('screens/Languages/index') },
-    { icon: Icons.themes, label: 'Themes', onPress: () => navigation.navigate('screens/Themes/index') },
-    { icon: Icons.logout, label: 'Logout', onPress: () => {} },
+    { icon: Icons.profile, label: 'Add to Contacts' },
+    { icon: Icons.saved, label: 'Saved Messages' },
+    { icon: Icons.notifications, label: 'Notifications' },
+    { icon: Icons.themes, label: 'Themes' },
+    { icon: Icons.privacy, label: 'Block' },
   ];
-
 
   return (
     <SafeAreaView style={[styles.safeView, { backgroundColor: Colors[colorScheme].background }]}>
       <View style={styles.container}>
-        <View style={[styles.profileView, { backgroundColor: Colors[colorScheme].rounded }]}>
+
+        {/* Back Icon */}
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backView}>
+          <Image
+            source={Icons.back}
+            style={[styles.back, { tintColor: Colors[colorScheme].tint }]}
+          />
+        </TouchableOpacity>
+
+        {/* Profile View */}
+        <View style={styles.profileView}>
           <Image source={Images.metehan} style={styles.profileImg} />
-          <View style={styles.profileRight}>
             <Text style={[styles.name, {color: Colors[colorScheme].text}]}>Metehan Karataş</Text>
             <Text style={[styles.number, {color: Colors[colorScheme].text}]}>+90 555 123 24 24</Text>
-          </View>
         </View>
 
+        {/* Settings List */}
         {settings.map((item, index) => (
-          <TouchableOpacity key={index} style={[styles.settingView, {backgroundColor: Colors[colorScheme].rounded}]} onPress={item.onPress}>
+          <TouchableOpacity key={index} style={[styles.settingView, {backgroundColor: Colors[colorScheme].rounded}]}>
             <Image source={item.icon} style={styles.icon} />
             <Text style={[styles.iconText, { color: Colors[colorScheme].text}]}>{item.label}</Text>
-            <Image source={Icons.next} style={[styles.next, {tintColor:Colors[colorScheme].tint}]} />
+            <Image source={Icons.next} style={[styles.next, {tintColor: Colors[colorScheme].tint}]} />
           </TouchableOpacity>
         ))}
       </View>
@@ -50,35 +56,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    /* paddingTop: 48, //kaldırmayı unutma, sadece gösteriş için koydum */
     padding: 16,
   },
+  backView: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    zIndex: 1,
+  },
+  back: {
+    height: 32,
+    width: 32,
+  },
   profileImg: {
-    width: 86,
-    height: 86,
+    width: 132,
+    height: 132,
     borderRadius: 100,
   },
   profileView: {
     width: '100%',
     padding: 16,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
-    marginVertical: 8,
-    borderRadius: 20,
+    justifyContent: 'center',
   },
   name: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: '700',
-    paddingBottom: 4,
+    marginVertical: 8,
+    textAlign: 'center'
   },
   number: {
     fontSize: 14,
     fontWeight: '300',
-  },
-  profileRight: {
-    marginLeft: 16,
-    justifyContent: 'center',
+    textAlign: 'center'
   },
   settingView: {
     width: '100%',
